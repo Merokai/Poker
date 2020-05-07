@@ -14,6 +14,6 @@ public class Deck {
             throw new IllegalStateException();
         }
         count--;
-        return new Card(Pip.TILES, 2);
+        return new Card(Pip.TILES, 1 + count%13);
     }
 }

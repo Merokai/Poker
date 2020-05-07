@@ -34,6 +34,9 @@ public class DeckTest {
         Card card = deck.drawOne();
 
         assertNotNull(card);
+
+        Card card2 = deck.drawOne();
+        assertNotEquals(card, card2);
     }
 
 }
