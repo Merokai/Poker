@@ -19,4 +19,8 @@ public class Hand {
         }
         cards.add(card);
     }
+
+    public boolean isBetterThan(Hand hand2) {
+        return true;
+    }
 }
