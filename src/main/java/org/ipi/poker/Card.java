@@ -36,4 +36,9 @@ public class Card {
     public boolean equals(Object obj) {
         return obj != null && obj.getClass() == Card.class && obj.hashCode() == hashCode();
     }
+
+    @Override
+    public String toString() {
+        return String.format("Card: {%s %s}", pip, value);
+    }
 }

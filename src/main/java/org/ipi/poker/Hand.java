@@ -10,8 +10,11 @@ public class Hand {
 
     private final Set<Card> cards;
 
+    private int score;
+
     public Hand() {
         this.cards = new HashSet<>();
+        this.score = 0;
     }
 
     public void addCard(Card card) {
@@ -19,10 +22,11 @@ public class Hand {
             throw new IllegalStateException();
         }
         cards.add(card);
+        this.score = computeScore();
     }
 
     public boolean isBetterThan(Hand hand2) {
-        return computeScore() > hand2.computeScore();
+        return score > hand2.score;
     }
 
     private int computeScore() {
@@ -83,5 +87,10 @@ public class Hand {
         score += mutableCards.stream().map(Card::getScore).max(Integer::compare).orElse(0);
 
         return score;
+    }
+
+    @Override
+    public String toString() {
+        return cards.toString();
     }
 }
