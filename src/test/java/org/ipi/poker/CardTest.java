@@ -37,5 +37,7 @@ public class CardTest {
         Card differentValue = new Card(Pip.TILES, 3);
 
         assertEquals(card, sameCard);
+        assertNotEquals(card, differentPip);
+        assertNotEquals(card, differentValue);
     }
 }
