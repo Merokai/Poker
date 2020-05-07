@@ -30,18 +30,20 @@ public class Hand {
 
         int score = 0;
 
-        // Computing Pairs
-        // 20 to 140 for One Pair + High Card
-        // 200 to 1400 for Two Pair
-        Set<Integer> uniqueScores = mutableCards.stream().map(Card::getScore).collect(Collectors.toSet());
+        Set<Integer> uniqueCardScores = mutableCards.stream().map(Card::getScore).collect(Collectors.toSet());
+
         int pairScore = 0;
-        for (int cardScore : uniqueScores) {
-            if (mutableCards.stream().filter(c -> c.getScore() == cardScore).count() == 2) {
-                // This is a second Pair
-                if (pairScore > 0) {
-                    return Math.max(pairScore, cardScore) * 100;
+        for (int cardScore : uniqueCardScores) {
+            final int cardsForThisCardScore = (int) mutableCards.stream().filter(c -> c.getScore() == cardScore).count();
+            if (cardsForThisCardScore == 3) {
+                score += 1000 * cardScore;
+                mutableCards = mutableCards.stream().filter(c -> c.getScore() != cardScore).collect(Collectors.toSet());
+            } else if (cardsForThisCardScore == 2) {
+                if (pairScore > 0) {// This is a second Pair
+                    pairScore = 10 * Math.max(pairScore, cardScore) + Math.min(pairScore, cardScore);
+                } else {
+                    pairScore = cardScore;
                 }
-                pairScore = cardScore;
                 mutableCards = mutableCards.stream().filter(c -> c.getScore() != cardScore).collect(Collectors.toSet());
             }
         }
