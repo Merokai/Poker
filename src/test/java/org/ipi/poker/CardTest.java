@@ -20,7 +20,12 @@ public class CardTest {
     @Test
     void hasValue() {
         for (int i = 0; i < 20; i++) {
-            assertEquals(i, new Card(Pip.TILES, i).getValue());
+            int value = i;
+            if (value < 1 || value > 13) {
+                assertThrows(IllegalArgumentException.class, () -> new Card(Pip.TILES, value));
+            } else {
+                assertEquals(i, new Card(Pip.TILES, value).getValue());
+            }
         }
     }
 }

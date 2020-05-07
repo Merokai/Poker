@@ -5,6 +5,9 @@ public class Card {
     private int value; // 1 to 14
 
     public Card(Pip pip, int value) {
+        if (value < 1 || value > 13) {
+            throw new IllegalArgumentException();
+        }
         this.pip = pip;
         this.value = value;
     }
