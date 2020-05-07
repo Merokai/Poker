@@ -20,6 +20,10 @@ public class Card {
         return value;
     }
 
+    public int getScore() {
+        return value == 1 ? 14 : value;
+    }
+
     @Override
     public int hashCode() {
         int hash = 1;

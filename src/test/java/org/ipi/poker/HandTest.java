@@ -28,5 +28,9 @@ public class HandTest {
 
         assertTrue(hand1.isBetterThan(hand2));
         assertFalse(hand2.isBetterThan(hand1));
+
+        hand2.addCard(new Card(Pip.HEARTS, 1));
+        assertFalse(hand1.isBetterThan(hand2));
+        assertTrue(hand2.isBetterThan(hand1));
     }
 }

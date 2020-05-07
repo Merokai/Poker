@@ -22,8 +22,8 @@ public class Hand {
     }
 
     public boolean isBetterThan(Hand hand2) {
-        Optional<Integer> hand1Max = cards.stream().map(Card::getValue).max(Integer::compare);
-        Optional<Integer> hand2Max = hand2.cards.stream().map(Card::getValue).max(Integer::compare);
+        Optional<Integer> hand1Max = cards.stream().map(Card::getScore).max(Integer::compare);
+        Optional<Integer> hand2Max = hand2.cards.stream().map(Card::getScore).max(Integer::compare);
 
         if (hand1Max.isEmpty() || hand2Max.isEmpty()) {
             throw new IllegalArgumentException();
