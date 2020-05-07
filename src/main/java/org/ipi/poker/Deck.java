@@ -1,29 +1,29 @@
 package org.ipi.poker;
 
+import java.util.*;
+
 public class Deck {
     public static final int SIZE = 52;
 
-    private final int offset;
 
-    private int count = SIZE;
+    private final List<Card> cards;
 
     public Deck() {
-        this.offset = generateOffset();
+        cards = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            cards.add(new Card(Pip.values()[cards.size() % 4], 1 + cards.size() % 13));
+        }
+        Collections.shuffle(cards);
     }
 
     public int count() {
-        return count;
+        return cards.size();
     }
 
     public Card drawOne() {
-        if (count < 1) {
+        if (cards.size() < 1) {
             throw new IllegalStateException();
         }
-        count--;
-        return new Card(Pip.values()[(offset + count) % 4], 1 + (offset + count) % 13);
-    }
-
-    private int generateOffset() {
-        return (int) (Math.random() * SIZE);
+        return cards.remove(0);
     }
 }

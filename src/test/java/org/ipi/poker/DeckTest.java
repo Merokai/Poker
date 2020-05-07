@@ -60,4 +60,21 @@ public class DeckTest {
         assertEquals(Deck.SIZE, firstPick.size());
     }
 
+    @Test void cardPickOrderChanges(){
+        final int A_HUNDRED_THOUSAND = 100000;
+        Set<Integer> valueShifts = new HashSet<>();
+        Set<Integer> pipShifts = new HashSet<>();
+
+        for(int i=0;i<A_HUNDRED_THOUSAND;i++){
+            Deck deck = new Deck();
+            Card card1 = deck.drawOne();
+            Card card2 = deck.drawOne();
+            valueShifts.add(card1.getValue() - card2.getValue());
+            pipShifts.add(card1.getPip().ordinal() - card2.getPip().ordinal());
+        }
+
+        assertNotEquals(2, valueShifts.size());
+        assertNotEquals(2, pipShifts.size());
+    }
+
 }
