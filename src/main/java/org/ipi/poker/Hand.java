@@ -10,7 +10,7 @@ public class Hand {
 
     private final Set<Card> cards;
 
-    private int score;
+    private long score;
 
     public Hand() {
         this.cards = new HashSet<>();
@@ -29,64 +29,63 @@ public class Hand {
         return score > hand2.score;
     }
 
-    private int computeScore() {
-        Set<Card> mutableCards = new HashSet<>(cards);
+    private long computeScore() {
+        final long FOUR_OF_A_KIND = (long) Math.pow(15, 7);
+        final long FULL_HOUSE = (long) Math.pow(15, 6);
+        final long FLUSH = (long) Math.pow(15, 5);
+        final long STRAIGHT = (long) Math.pow(15, 4);
+        final long THREE_OF_A_KIND = (long) Math.pow(15, 3);
+        final long PAIR = 15;
 
-        int score = 0;
+        long score = 0;
 
 
-        Set<Integer> uniqueCardScores = mutableCards.stream().map(Card::getScore).collect(Collectors.toSet());
+        Set<Integer> uniqueCardScores = cards.stream().map(Card::getScore).collect(Collectors.toSet());
 
-        // Flush
-        if (mutableCards.stream().map(Card::getPip).distinct().count() == 1 && mutableCards.size() == 5) {
-            score += 100000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
+        final int uniquePipsCount = (int) cards.stream().map(Card::getPip).distinct().count();
+
+        // Five cards of the same pip: Flush
+        if (uniquePipsCount == 1 && cards.size() == 5) {
+            score = FLUSH * uniqueCardScores.stream().max(Integer::compare).orElse(0);
         }
 
-        // Straight
+        // Five differents values with lowest and highest closing a 5 values range: Straight
         if (uniqueCardScores.size() == 5 && uniqueCardScores.stream().max(Integer::compare).orElse(0) == uniqueCardScores.stream().min(Integer::compare).orElse(0) + 4) {
-            if (score > 160000) { // Straight flush
-                return 100000000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
-            }
-            score += 10000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
+            return (score > FLUSH ? FLUSH : 1) * STRAIGHT * uniqueCardScores.stream().max(Integer::compare).orElse(0);
         }
 
+        // Straight starting with an ace
         if (uniqueCardScores.containsAll(Set.of(14, 2, 3, 4, 5))) {
-            if (score > 160000) { // Straight flush
-                return 100000000 * 5;
-            }
-            score += 10000 * 5;
+            return (score > FLUSH ? FLUSH : 1) * STRAIGHT * 5;
         }
-        int pairScore = 0;
+
+        // Three/Four of a kind, full house and pairs
         for (int cardScore : uniqueCardScores) {
-            final int cardsForThisCardScore = (int) mutableCards.stream().filter(c -> c.getScore() == cardScore).count();
-            if (cardsForThisCardScore == 4) {
-                return 10000000 * cardScore;
-                // Pair
-            } else if (cardsForThisCardScore == 3) { // ToaK
-                if (score > 160) { // Full house
-                    return 1000000 * cardScore;
-                }
-                score += 1000 * cardScore;
-                mutableCards = mutableCards.stream().filter(c -> c.getScore() != cardScore).collect(Collectors.toSet());
-                // Pair
-            } else if (cardsForThisCardScore == 2) {
-                if (pairScore > 0) {
-                    // Second Pair
-                    pairScore = 10 * Math.max(pairScore, cardScore) + Math.min(pairScore, cardScore);
-                } else if (score > 1600) { // Full house
-                    return 1000000 * Math.max(score / 1000, cardScore);
-                } else {
-                    pairScore = cardScore;
-                }
-                mutableCards = mutableCards.stream().filter(c -> c.getScore() != cardScore).collect(Collectors.toSet());
+
+            final int numberOfCardsWithSameValue = (int) cards.stream().filter(c -> c.getScore() == cardScore).count();
+
+            // Full house
+            if (score > PAIR && numberOfCardsWithSameValue == 3) {
+                return FULL_HOUSE * cardScore + score;
+            }
+            if (score > THREE_OF_A_KIND && numberOfCardsWithSameValue == 2) {
+                return FULL_HOUSE * score / THREE_OF_A_KIND + cardScore;
+            }
+
+            switch (numberOfCardsWithSameValue) {
+                case 4:
+                    return FOUR_OF_A_KIND * cardScore;
+                case 3:
+                    score += THREE_OF_A_KIND * cardScore;
+                    break;
+                case 2:
+                    score = PAIR * Math.max(score, cardScore) + Math.min(score, cardScore);
+                    break;
             }
         }
-        score += 10 * pairScore;
 
         // High card
-        score += mutableCards.stream().map(Card::getScore).max(Integer::compare).orElse(0);
-
-        return score;
+        return score + cards.stream().map(Card::getScore).max(Integer::compare).orElse(0);
     }
 
     @Override
