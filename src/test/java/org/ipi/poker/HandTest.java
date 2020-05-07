@@ -19,7 +19,8 @@ public class HandTest {
         }
     }
 
-    @Test void compareHands(){
+    @Test
+    void compareHands() {
         // Hand 1 wins with a High Card of 8
         Hand hand1 = new Hand();
         hand1.addCard(new Card(Pip.HEARTS, 8));
@@ -158,7 +159,22 @@ public class HandTest {
         assertFalse(hand2.isBetterThan(hand1));
 
 
+        // hand 1 wins with a full house
+        hand1 = new Hand();
+        hand1.addCard(new Card(Pip.PIKES, 3));
+        hand1.addCard(new Card(Pip.CLOVERS, 3));
+        hand1.addCard(new Card(Pip.HEARTS, 3));
+        hand1.addCard(new Card(Pip.TILES, 4));
+        hand1.addCard(new Card(Pip.PIKES, 4));
+        hand2 = new Hand();
+        hand2.addCard(new Card(Pip.PIKES, 2));
+        hand2.addCard(new Card(Pip.PIKES, 3));
+        hand2.addCard(new Card(Pip.PIKES, 5));
+        hand2.addCard(new Card(Pip.PIKES, 6));
+        hand2.addCard(new Card(Pip.PIKES, 8));
 
+        assertTrue(hand1.isBetterThan(hand2));
+        assertFalse(hand2.isBetterThan(hand1));
     }
 
 
