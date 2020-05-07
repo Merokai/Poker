@@ -2,6 +2,7 @@ package org.ipi.poker;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -75,6 +76,13 @@ public class DeckTest {
 
         assertNotEquals(2, valueShifts.size());
         assertNotEquals(2, pipShifts.size());
+    }
+
+    @Test void drawAHand(){
+        Deck deck = new Deck();
+        Collection<Card> hand = deck.drawFive();
+
+        assertEquals(5, hand.size());
     }
 
 }

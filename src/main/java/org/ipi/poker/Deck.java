@@ -26,4 +26,12 @@ public class Deck {
         }
         return cards.remove(0);
     }
+
+    public Set<Card> drawFive() {
+        Set<Card> cards = new HashSet<>();
+        while (cards.size() < 5) {
+            cards.add(drawOne());
+        }
+        return cards;
+    }
 }
