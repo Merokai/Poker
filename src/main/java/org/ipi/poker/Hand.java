@@ -35,19 +35,21 @@ public class Hand {
 
         // Flush
         if (mutableCards.stream().map(Card::getPip).distinct().count() == 1 && mutableCards.size() == 5) {
-            score += 100000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
+            return 100000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
         }
 
         // Straight
         if (uniqueCardScores.size() == 5 && uniqueCardScores.stream().max(Integer::compare).orElse(0) == uniqueCardScores.stream().min(Integer::compare).orElse(0) + 4) {
-            score += 10000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
+            return 10000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
         }
 
         int pairScore = 0;
         for (int cardScore : uniqueCardScores) {
             final int cardsForThisCardScore = (int) mutableCards.stream().filter(c -> c.getScore() == cardScore).count();
-            // ToaK
-            if (cardsForThisCardScore == 3) {
+            if (cardsForThisCardScore == 4) {
+                return 10000000 * cardScore;
+                // Pair
+            } else if (cardsForThisCardScore == 3) { // ToaK
                 if (score > 140) { // Full house
                     return 1000000 * cardScore;
                 }

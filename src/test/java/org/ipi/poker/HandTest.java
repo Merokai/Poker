@@ -175,6 +175,24 @@ public class HandTest {
 
         assertTrue(hand1.isBetterThan(hand2));
         assertFalse(hand2.isBetterThan(hand1));
+
+
+        // hand 1 wins with a FoaK
+        hand1 = new Hand();
+        hand1.addCard(new Card(Pip.PIKES, 2));
+        hand1.addCard(new Card(Pip.CLOVERS, 2));
+        hand1.addCard(new Card(Pip.HEARTS, 2));
+        hand1.addCard(new Card(Pip.TILES, 2));
+        hand1.addCard(new Card(Pip.PIKES, 6));
+        hand2 = new Hand();
+        hand2.addCard(new Card(Pip.PIKES, 3));
+        hand2.addCard(new Card(Pip.CLOVERS, 3));
+        hand2.addCard(new Card(Pip.HEARTS, 3));
+        hand2.addCard(new Card(Pip.TILES, 4));
+        hand2.addCard(new Card(Pip.PIKES, 4));
+
+        assertTrue(hand1.isBetterThan(hand2));
+        assertFalse(hand2.isBetterThan(hand1));
     }
 
 
