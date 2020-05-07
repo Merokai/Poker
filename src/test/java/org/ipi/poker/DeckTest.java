@@ -48,4 +48,16 @@ public class DeckTest {
         assertEquals(Deck.SIZE, eachCard.size());
     }
 
+    @Test void firstCardDrawnChanges(){
+        final int A_HUNDRED_THOUSAND = 100000;
+
+        Set<Card> firstPick = new HashSet<>();
+
+        for(int i=0;i<A_HUNDRED_THOUSAND;i++){
+            firstPick.add(new Deck().drawOne());
+        }
+
+        assertEquals(Deck.SIZE, firstPick.size());
+    }
+
 }
