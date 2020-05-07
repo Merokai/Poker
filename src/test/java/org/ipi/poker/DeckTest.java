@@ -8,6 +8,8 @@ public class DeckTest {
 
     @Test void newDeckHasCards(){
         Deck deck = new Deck();
+
+        assertEquals(52, Deck.SIZE);
     }
 
 }
