@@ -32,6 +32,10 @@ public class Hand {
 
         Set<Integer> uniqueCardScores = mutableCards.stream().map(Card::getScore).collect(Collectors.toSet());
 
+        if (uniqueCardScores.size() == 5 && uniqueCardScores.stream().max(Integer::compare).orElse(0) == uniqueCardScores.stream().min(Integer::compare).orElse(0) + 4) {
+            return 10000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
+        }
+
         int pairScore = 0;
         for (int cardScore : uniqueCardScores) {
             final int cardsForThisCardScore = (int) mutableCards.stream().filter(c -> c.getScore() == cardScore).count();
