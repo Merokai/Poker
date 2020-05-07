@@ -3,6 +3,7 @@ package org.ipi.poker;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,36 +50,44 @@ public class DeckTest {
         assertEquals(Deck.SIZE, eachCard.size());
     }
 
-    @Test void firstCardDrawnChanges(){
+    @Test
+    void firstCardDrawnChanges() {
         final int A_HUNDRED_THOUSAND = 100000;
 
         Set<Card> firstPick = new HashSet<>();
 
-        for(int i=0;i<A_HUNDRED_THOUSAND;i++){
+        for (int i = 0; i < A_HUNDRED_THOUSAND; i++) {
             firstPick.add(new Deck().drawOne());
         }
 
         assertEquals(Deck.SIZE, firstPick.size());
     }
 
-    @Test void cardPickOrderChanges(){
+    @Test
+    void cardPickOrderChanges() {
         final int A_HUNDRED_THOUSAND = 100000;
-        Set<Integer> valueShifts = new HashSet<>();
-        Set<Integer> pipShifts = new HashSet<>();
+        HashMap<Integer, Integer> pickCount = new HashMap<>();
 
-        for(int i=0;i<A_HUNDRED_THOUSAND;i++){
+        // Pick the first 10 cards out of 100 000 decks and count how many times each value is picked
+        for (int i = 0; i < A_HUNDRED_THOUSAND; i++) {
             Deck deck = new Deck();
-            Card card1 = deck.drawOne();
-            Card card2 = deck.drawOne();
-            valueShifts.add(card1.getValue() - card2.getValue());
-            pipShifts.add(card1.getPip().ordinal() - card2.getPip().ordinal());
+            for (int j = 0; j < 10; j++) {
+                int picked = deck.drawOne().getValue();
+                pickCount.put(picked, pickCount.get(picked) != null ? pickCount.get(picked) + 1 : 1);
+            }
         }
 
-        assertNotEquals(2, valueShifts.size());
-        assertNotEquals(2, pipShifts.size());
+        int expectedPicks = 10 * A_HUNDRED_THOUSAND / 13;
+
+        for (int i = 1; i < 14; i++) {
+            assertTrue(expectedPicks * 1.1 > pickCount.get(i));
+            assertTrue(expectedPicks * 0.9 < pickCount.get(i));
+        }
+
     }
 
-    @Test void drawAHand(){
+    @Test
+    void drawAHand() {
         Deck deck = new Deck();
         Collection<Card> hand = deck.drawFive();
 

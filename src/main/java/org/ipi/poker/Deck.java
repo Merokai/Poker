@@ -10,7 +10,7 @@ public class Deck {
 
     public Deck() {
         cards = new ArrayList<>();
-        for (int i = 0; i < SIZE; i++) {
+        while (cards.size() < SIZE) {
             cards.add(new Card(Pip.values()[cards.size() % 4], 1 + cards.size() % 13));
         }
         Collections.shuffle(cards);
