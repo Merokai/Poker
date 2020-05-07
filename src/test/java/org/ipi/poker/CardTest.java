@@ -15,6 +15,7 @@ public class CardTest {
         assertEquals(Pip.PIKES, new Card(Pip.PIKES, 4).getPip());
         assertEquals(Pip.HEARTS, new Card(Pip.HEARTS, 4).getPip());
         assertEquals(Pip.TILES, new Card(Pip.TILES, 4).getPip());
+        assertThrows(IllegalArgumentException.class, () -> new Card(null, 1));
     }
 
     @Test
