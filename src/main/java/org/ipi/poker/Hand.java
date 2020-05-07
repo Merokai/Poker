@@ -40,10 +40,17 @@ public class Hand {
 
         // Straight
         if (uniqueCardScores.size() == 5 && uniqueCardScores.stream().max(Integer::compare).orElse(0) == uniqueCardScores.stream().min(Integer::compare).orElse(0) + 4) {
-            if (score > 160000){
+            if (score > 160000) { // Straight flush
                 return 100000000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
             }
             score += 10000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
+        }
+
+        if (uniqueCardScores.containsAll(Set.of(14, 2, 3, 4, 5))) {
+            if (score > 160000) { // Straight flush
+                return 100000000 * 5;
+            }
+            score += 10000 * 5;
         }
         int pairScore = 0;
         for (int cardScore : uniqueCardScores) {

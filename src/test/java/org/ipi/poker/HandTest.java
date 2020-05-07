@@ -213,6 +213,24 @@ public class HandTest {
         assertFalse(hand2.isBetterThan(hand1));
 
 
+        // hand 2 looses with a 1-5 Straight Flush
+        hand1 = new Hand();
+        hand1.addCard(new Card(Pip.PIKES, 3));
+        hand1.addCard(new Card(Pip.PIKES, 4));
+        hand1.addCard(new Card(Pip.PIKES, 5));
+        hand1.addCard(new Card(Pip.PIKES, 6));
+        hand1.addCard(new Card(Pip.PIKES, 7));
+        hand2 = new Hand();
+        hand2.addCard(new Card(Pip.PIKES, 1));
+        hand2.addCard(new Card(Pip.CLOVERS, 2));
+        hand2.addCard(new Card(Pip.HEARTS, 3));
+        hand2.addCard(new Card(Pip.TILES, 4));
+        hand2.addCard(new Card(Pip.TILES, 5));
+
+        assertTrue(hand1.isBetterThan(hand2));
+        assertFalse(hand2.isBetterThan(hand1));
+
+
         // Royal Quinte Flush obviously wins using existing rules
         hand1 = new Hand();
         hand1.addCard(new Card(Pip.PIKES, 1));
