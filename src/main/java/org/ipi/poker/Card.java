@@ -19,4 +19,17 @@ public class Card {
     public int getValue() {
         return value;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 1;
+        hash *= 13 + pip.hashCode();
+        hash *= 17 + Integer.hashCode(value);
+        return Integer.hashCode(hash);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && obj.getClass() == Card.class && obj.hashCode() == hashCode();
+    }
 }

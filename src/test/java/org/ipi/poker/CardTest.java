@@ -29,4 +29,13 @@ public class CardTest {
             }
         }
     }
+
+    @Test void areEquals(){
+        Card card = new Card(Pip.TILES, 2);
+        Card sameCard = new Card(Pip.TILES, 2);
+        Card differentPip = new Card(Pip.HEARTS, 2);
+        Card differentValue = new Card(Pip.TILES, 3);
+
+        assertEquals(card, sameCard);
+    }
 }
