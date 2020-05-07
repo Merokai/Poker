@@ -2,8 +2,7 @@ package org.ipi.poker;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class HandTest {
 
@@ -28,5 +27,6 @@ public class HandTest {
         hand2.addCard(new Card(Pip.HEARTS, 4));
 
         assertTrue(hand1.isBetterThan(hand2));
+        assertFalse(hand2.isBetterThan(hand1));
     }
 }
