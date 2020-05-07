@@ -10,6 +10,9 @@ public class Deck {
     }
 
     public Card drawOne() {
+        if (count < 1) {
+            throw new IllegalStateException();
+        }
         count--;
         return null;
     }
