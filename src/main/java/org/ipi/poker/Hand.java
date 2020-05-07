@@ -30,8 +30,15 @@ public class Hand {
 
         int score = 0;
 
+
         Set<Integer> uniqueCardScores = mutableCards.stream().map(Card::getScore).collect(Collectors.toSet());
 
+        // Flush
+        if (mutableCards.stream().map(Card::getPip).distinct().count() == 1 && mutableCards.size() == 5) {
+            return 100000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
+        }
+
+        // Straight
         if (uniqueCardScores.size() == 5 && uniqueCardScores.stream().max(Integer::compare).orElse(0) == uniqueCardScores.stream().min(Integer::compare).orElse(0) + 4) {
             return 10000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
         }
@@ -39,11 +46,14 @@ public class Hand {
         int pairScore = 0;
         for (int cardScore : uniqueCardScores) {
             final int cardsForThisCardScore = (int) mutableCards.stream().filter(c -> c.getScore() == cardScore).count();
+            // ToaK
             if (cardsForThisCardScore == 3) {
                 score += 1000 * cardScore;
                 mutableCards = mutableCards.stream().filter(c -> c.getScore() != cardScore).collect(Collectors.toSet());
+                // Pair
             } else if (cardsForThisCardScore == 2) {
-                if (pairScore > 0) {// This is a second Pair
+                if (pairScore > 0) {
+                    // Second Pair
                     pairScore = 10 * Math.max(pairScore, cardScore) + Math.min(pairScore, cardScore);
                 } else {
                     pairScore = cardScore;
@@ -53,8 +63,7 @@ public class Hand {
         }
         score += 10 * pairScore;
 
-        // Computing High Card value
-        // 2 to 14 score
+        // High card
         score += mutableCards.stream().map(Card::getScore).max(Integer::compare).orElse(0);
 
         return score;
