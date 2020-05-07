@@ -10,6 +10,7 @@ public class DeckTest {
         Deck deck = new Deck();
 
         assertEquals(52, Deck.SIZE);
+        assertEquals(Deck.SIZE, deck.count());
     }
 
 }
