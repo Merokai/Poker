@@ -35,14 +35,16 @@ public class Hand {
 
         // Flush
         if (mutableCards.stream().map(Card::getPip).distinct().count() == 1 && mutableCards.size() == 5) {
-            return 100000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
+            score += 100000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
         }
 
         // Straight
         if (uniqueCardScores.size() == 5 && uniqueCardScores.stream().max(Integer::compare).orElse(0) == uniqueCardScores.stream().min(Integer::compare).orElse(0) + 4) {
-            return 10000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
+            if (score > 160000){
+                return 100000000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
+            }
+            score += 10000 * uniqueCardScores.stream().max(Integer::compare).orElse(0);
         }
-
         int pairScore = 0;
         for (int cardScore : uniqueCardScores) {
             final int cardsForThisCardScore = (int) mutableCards.stream().filter(c -> c.getScore() == cardScore).count();
@@ -50,7 +52,7 @@ public class Hand {
                 return 10000000 * cardScore;
                 // Pair
             } else if (cardsForThisCardScore == 3) { // ToaK
-                if (score > 140) { // Full house
+                if (score > 160) { // Full house
                     return 1000000 * cardScore;
                 }
                 score += 1000 * cardScore;
@@ -60,7 +62,7 @@ public class Hand {
                 if (pairScore > 0) {
                     // Second Pair
                     pairScore = 10 * Math.max(pairScore, cardScore) + Math.min(pairScore, cardScore);
-                } else if (score > 1400) { // Full house
+                } else if (score > 1600) { // Full house
                     return 1000000 * Math.max(score / 1000, cardScore);
                 } else {
                     pairScore = cardScore;
