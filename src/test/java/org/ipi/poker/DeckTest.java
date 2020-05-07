@@ -29,7 +29,8 @@ public class DeckTest {
         }
     }
 
-    @Test void drawingCards(){
+    @Test
+    void drawingCards() {
         Deck deck = new Deck();
         Card card = deck.drawOne();
 
@@ -37,6 +38,14 @@ public class DeckTest {
 
         Card card2 = deck.drawOne();
         assertNotEquals(card, card2);
+
+        Set<Card> eachCard = new HashSet<>();
+        eachCard.add(card);
+        eachCard.add(card2);
+        while (deck.count() > 0) {
+            eachCard.add(deck.drawOne());
+        }
+        assertEquals(Deck.SIZE, eachCard.size());
     }
 
 }
