@@ -11,6 +11,9 @@ public class DeckTest {
 
         assertEquals(52, Deck.SIZE);
         assertEquals(Deck.SIZE, deck.count());
+
+        deck.drawOne();
+        assertEquals(Deck.SIZE - 1, deck.count());
     }
 
 }
